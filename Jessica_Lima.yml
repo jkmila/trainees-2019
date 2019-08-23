@@ -1,0 +1,734 @@
+swagger: "2.0"
+info:
+  description: "API de Filmes - Cadastro de Filmes, Artistas, Gêneros Cinematofráficos, Filmografia"
+  version: "1.0.0"
+  title: "API de Filmes"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "suporte@filmes.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "filmes.com"
+basePath: "/api/v1"
+
+schemes:
+- "https"
+
+securityDefinitions:
+  BasicAuth: 
+    type: basic
+    
+security: 
+  - BasicAuth: []
+  
+consumes:
+  - "application/json"
+produces:
+  - "application/json"
+  
+tags: 
+  - name: Artistas
+  - name: Generos
+  - name: Filmes
+  - name: Health
+  
+
+paths:
+
+  /Artista:
+    post:
+      tags:
+        - Artistas
+      summary: "Rota de cadastro de artistas"
+      operationId: "cadastroArtista"
+      security:
+        - BasicAuth: []
+      parameters:
+      - in: header
+        type: string
+        name: Autorization
+        required: true
+      - in: body
+        name: "request"
+        required: true
+        schema:
+          properties:
+            Artista:
+              $ref: "#/definitions/Artista"
+      responses:
+        201:
+          description: "Artista cadastrado com sucesso"
+          schema:
+            properties:
+              Artista:
+                $ref: "#/definitions/Artista"
+        400:
+          description: "Parâmetros inválidos informados pelo usuário"
+          schema:
+            $ref: "#/definitions/ResponseError"
+        401:
+          description: "Usuário não autenticado"
+          schema:
+            $ref: "#/definitions/ResponseError"
+        403:
+          description: "Usuário sem permissão para realizar a operação"
+          schema:
+            $ref: "#/definitions/ResponseError"
+        500:
+          description: "erro não mapeado"
+          schema:
+            $ref: "#/definitions/ResponseError"
+
+
+    get:
+      tags:
+        - Artistas
+      summary: "Rota de lista de todos os artistas ou busca um pelo ID"
+      operationId: "listaArtista"
+      security:
+        - BasicAuth: []
+      parameters:
+      - in: header
+        type: string
+        name: Autorization
+        required: true
+      - in: query
+        name: id_artista
+        type: integer
+        format: int32
+        required: false
+      - $ref: "#/parameters/Page"
+      - $ref: "#/parameters/Size"
+      responses:
+        200:
+          description: "Consulta Realizada com Sucesso"
+          schema:
+            properties:
+              Artista:
+                $ref: "#/definitions/Artista"
+        400:
+          description: "Parâmetros inválidos informados pelo usuário"
+          schema:
+            $ref: "#/definitions/ResponseError"
+        401:
+          description: "Usuário não autenticado"
+          schema:
+            $ref: "#/definitions/ResponseError"
+        403:
+          description: "Usuário sem permissão para realizar a operação"
+          schema:
+            $ref: "#/definitions/ResponseError"
+        500:
+          description: "erro não mapeado"
+          schema:
+            $ref: "#/definitions/ResponseError"
+
+
+
+  /Artista/{nome_artista}:            
+    put:
+      tags:
+        - Artistas
+      summary: "Atualiza Artista"
+      operationId: "atualizaArtista"
+      security:
+        - BasicAuth: []
+      parameters:
+      - in: header
+        type: string
+        name: Autorization
+        required: true
+      - in: path
+        name: nome_artista
+        type: string
+        required: true
+      responses:
+        201:
+          description: "Artista atualizado com sucesso"
+          schema:
+            properties:
+              Artista:
+                $ref: "#/definitions/Artista"
+        400:
+          description: "Parâmetros inválidos informados pelo usuário"
+          schema:
+            $ref: "#/definitions/ResponseError"
+        401:
+          description: "Usuário não autenticado"
+          schema:
+            $ref: "#/definitions/ResponseError"
+        403:
+          description: "Usuário sem permissão para realizar a operação"
+          schema:
+            $ref: "#/definitions/ResponseError"
+        500:
+          description: "erro não mapeado"
+          schema:
+            $ref: "#/definitions/ResponseError"
+            
+            
+    delete:
+      tags:
+        - Artistas
+      summary: "Deleta Artistas"
+      operationId: "deletaArtista"
+      security:
+        - BasicAuth: []
+      parameters:
+      - in: header
+        type: string
+        name: Autorization
+        required: true
+      - in: path
+        name: nome_artista
+        type: string
+        required: true
+      responses:
+        204:
+          description: "Artista excluido com sucesso"
+        400:
+          description: "Parâmetros inválidos informados pelo usuário"
+          schema:
+            $ref: "#/definitions/ResponseError"
+        401:
+          description: "Usuário não autenticado"
+          schema:
+            $ref: "#/definitions/ResponseError"
+        403:
+          description: "Usuário sem permissão para realizar a operação"
+          schema:
+            $ref: "#/definitions/ResponseError"
+        500:
+          description: "erro não mapeado"
+          schema:
+            $ref: "#/definitions/ResponseError"
+
+
+  /Genero:
+    post:
+      tags:
+        - Generos
+      summary: "Rota de cadastro de gêneros"
+      operationId: "cadastroGenero"
+      security:
+        - BasicAuth: []
+      parameters:
+      - in: header
+        type: string
+        name: Autorization
+        required: true
+      - in: body
+        name: "request"
+        required: true
+        schema:
+          properties:
+            Artista:
+              $ref: "#/definitions/Genero"
+      responses:
+        201:
+          description: "Genero cadastrado com sucesso"
+          schema:
+            properties:
+              Artista:
+                $ref: "#/definitions/Genero"
+        400:
+          description: "Parâmetros inválidos informados pelo usuário"
+          schema:
+            $ref: "#/definitions/ResponseError"
+        401:
+          description: "Usuário não autenticado"
+          schema:
+            $ref: "#/definitions/ResponseError"
+        403:
+          description: "Usuário sem permissão para realizar a operação"
+          schema:
+            $ref: "#/definitions/ResponseError"
+        500:
+          description: "erro não mapeado"
+          schema:
+            $ref: "#/definitions/ResponseError"
+            
+            
+    get:
+      tags:
+        - Generos
+      summary: "Rota de lista de todos os gêneros ou busca somente um pelo ID"
+      operationId: "listaGenero"
+      security:
+        - BasicAuth: []
+      parameters:
+      - in: header
+        type: string
+        name: Autorization
+        required: true
+      - in: query
+        name: id_genero
+        type: integer
+        format: int32
+        required: false
+      - $ref: "#/parameters/Page"
+      - $ref: "#/parameters/Size"
+      responses:
+        200:
+          description: "Consulta Realizada com Sucesso"
+          schema:
+            properties:
+              Artista:
+                $ref: "#/definitions/Genero"
+        400:
+          description: "Parâmetros inválidos informados pelo usuário"
+          schema:
+            $ref: "#/definitions/ResponseError"
+        401:
+          description: "Usuário não autenticado"
+          schema:
+            $ref: "#/definitions/ResponseError"
+        403:
+          description: "Usuário sem permissão para realizar a operação"
+          schema:
+            $ref: "#/definitions/ResponseError"
+        500:
+          description: "erro não mapeado"
+          schema:
+            $ref: "#/definitions/ResponseError"
+
+            
+  /Genero/{nome_genero}:            
+    put:
+      tags:
+        - Generos
+      summary: "Atualiza Gêneros"
+      operationId: "atualizaGenero"
+      security:
+        - BasicAuth: []
+      parameters:
+      - in: header
+        type: string
+        name: Autorization
+        required: true
+      - in: path
+        name: nome_genero
+        type: string
+        required: true
+      responses:
+        201:
+          description: "Gênero atualizado com sucesso"
+          schema:
+            properties:
+              Artista:
+                $ref: "#/definitions/Genero"
+        400:
+          description: "Parâmetros inválidos informados pelo usuário"
+          schema:
+            $ref: "#/definitions/ResponseError"
+        401:
+          description: "Usuário não autenticado"
+          schema:
+            $ref: "#/definitions/ResponseError"
+        403:
+          description: "Usuário sem permissão para realizar a operação"
+          schema:
+            $ref: "#/definitions/ResponseError"
+        500:
+          description: "erro não mapeado"
+          schema:
+            $ref: "#/definitions/ResponseError"
+            
+            
+    delete:
+      tags:
+        - Generos
+      summary: "Deleta Gênero"
+      operationId: "deletaGenero"
+      security:
+        - BasicAuth: []
+      parameters:
+      - in: header
+        type: string
+        name: Autorization
+        required: true
+      - in: path
+        name: nome_genero
+        type: string
+        required: true
+      responses:
+        204:
+          description: "Gênero excluido com sucesso"
+        400:
+          description: "Parâmetros inválidos informados pelo usuário"
+          schema:
+            $ref: "#/definitions/ResponseError"
+        401:
+          description: "Usuário não autenticado"
+          schema:
+            $ref: "#/definitions/ResponseError"
+        403:
+          description: "Usuário sem permissão para realizar a operação"
+          schema:
+            $ref: "#/definitions/ResponseError"
+        500:
+          description: "erro não mapeado"
+          schema:
+            $ref: "#/definitions/ResponseError"
+
+
+  /Filmes:
+    post:
+      tags:
+        - Filmes
+      summary: "Cadastra Filmes"
+      description: "Realiza o cadastro de filmes"
+      operationId: "cadastraFilme"
+      security:
+        - BasicAuth: []
+      parameters:
+      - in: header
+        type: string
+        name: Autorization
+        required: true
+      - in: body
+        name: "filme"
+        required: true
+        schema:
+          properties:
+            Filmes:
+              $ref: "#/definitions/Filmes"
+      - $ref: "#/definitions/Artista"
+      - $ref: "#/definitions/Genero"
+      responses:
+        201:
+          description: "Filme Criado com sucesso"
+          schema:
+            properties:
+              Filmes:
+                $ref: "#/definitions/Filmes"
+        400:
+          description: "Parâmetros inválidos informados pelo usuário"
+          schema:
+            $ref: "#/definitions/ResponseError"
+        401:
+          description: "Usuário não autenticado"
+          schema:
+            $ref: "#/definitions/ResponseError"
+        403:
+          description: "Usuário sem permissão para realizar a operação"
+          schema:
+            $ref: "#/definitions/ResponseError"
+        404:
+          description: "Artista/Gênero informado não encontrado"
+          schema:
+            $ref: "#/definitions/ResponseError"
+        500:
+          description: "erro não mapeado"
+          schema:
+            $ref: "#/definitions/ResponseError"
+            
+            
+    get:
+      tags:
+        - Filmes
+      summary: "Rota de lista de todos os Filmes ou busca um pelo nome"
+      operationId: "listaFilmes"
+      security:
+        - BasicAuth: []
+      parameters:
+      - in: header
+        type: string
+        name: Autorization
+        required: true
+      - in: query
+        name: id_filme
+        type: integer
+        format: int32
+        required: false
+      - $ref: "#/parameters/Page"
+      - $ref: "#/parameters/Size"
+      responses:
+        200:
+          description: "Consulta Realizada com Sucesso"
+          schema:
+            properties:
+              Artista:
+                $ref: "#/definitions/Filmes"
+        400:
+          description: "Parâmetros inválidos informados pelo usuário"
+          schema:
+            $ref: "#/definitions/ResponseError"
+        401:
+          description: "Usuário não autenticado"
+          schema:
+            $ref: "#/definitions/ResponseError"
+        403:
+          description: "Usuário sem permissão para realizar a operação"
+          schema:
+            $ref: "#/definitions/ResponseError"
+        500:
+          description: "erro não mapeado"
+          schema:
+            $ref: "#/definitions/ResponseError"
+
+      
+    put:
+      tags:
+        - Filmes
+      summary: "Atualiza Filme"
+      operationId: "atualizaFilme"
+      security:
+        - BasicAuth: []
+      parameters:
+      - in: header
+        type: string
+        name: Autorization
+        required: true
+      - in: path
+        name: id_filme
+        type: integer
+        format: int32
+        required: true
+      - in: body
+        name: Filme
+        schema:
+          properties:
+            Filmes:
+              $ref: "#/definitions/Filmes"
+      - $ref: "#/definitions/Artista"
+      - $ref: "#/definitions/Genero"
+      responses:
+        201:
+          description: "Filme atualizado com sucesso"
+          schema:
+            properties:
+              Filmes:
+                $ref: "#/definitions/Filmes"
+        400:
+          description: "Parâmetros inválidos informados pelo usuário"
+          schema:
+            $ref: "#/definitions/ResponseError"
+        401:
+          description: "Usuário não autenticado"
+          schema:
+            $ref: "#/definitions/ResponseError"
+        403:
+          description: "Usuário sem permissão para realizar a operação"
+          schema:
+            $ref: "#/definitions/ResponseError"
+        404:
+          description: "Artista/Gênero informado não encontrado"
+          schema:
+            $ref: "#/definitions/ResponseError"
+        500:
+          description: "erro não mapeado"
+          schema:
+            $ref: "#/definitions/ResponseError"
+            
+  
+    delete:
+      tags:
+        - Filmes
+      summary: "Deleta Filme"
+      operationId: "deletaFilme"
+      security:
+        - BasicAuth: []
+      parameters:
+      - in: header
+        type: string
+        name: Autorization
+        required: true
+      - in: path
+        name: id_filme
+        type: integer
+        format: int32
+        required: true
+      responses:
+        204:
+          description: "Filme excluido com sucesso"
+        400:
+          description: "Parâmetros inválidos informados pelo usuário"
+          schema:
+            $ref: "#/definitions/ResponseError"
+        401:
+          description: "Usuário não autenticado"
+          schema:
+            $ref: "#/definitions/ResponseError"
+        403:
+          description: "Usuário sem permissão para realizar a operação"
+          schema:
+            $ref: "#/definitions/ResponseError"
+        500:
+          description: "erro não mapeado"
+          schema:
+            $ref: "#/definitions/ResponseError"
+            
+
+  /Filmografia:
+    get:
+      tags:
+        - Filmes
+      summary: "Rota de lista de Filmografia"
+      operationId: "listaFilmografia"
+      security:
+        - BasicAuth: []
+      parameters:
+      - in: header
+        type: string
+        name: Autorization
+        required: true
+      - in: query
+        name: id_artista
+        type: integer
+        format: int32
+        required: true
+      - $ref: "#/parameters/Page"
+      - $ref: "#/parameters/Size"
+      responses:
+        200:
+          description: "Consulta Realizada com Sucesso"
+          schema:
+            properties:
+              filmologia:
+                $ref: "#/definitions/Filmografia"
+        400:
+          description: "Parâmetros inválidos informados pelo usuário"
+          schema:
+            $ref: "#/definitions/ResponseError"
+        401:
+          description: "Usuário não autenticado"
+          schema:
+            $ref: "#/definitions/ResponseError"
+        403:
+          description: "Usuário sem permissão para realizar a operação"
+          schema:
+            $ref: "#/definitions/ResponseError"
+        500:
+          description: "erro não mapeado"
+          schema:
+            $ref: "#/definitions/ResponseError"
+
+
+
+  /Health:
+    get:
+      tags:
+      - Health
+      summary: "Rota de healthcheck da aplicação"
+      operationId: "health"
+      responses:
+        200:
+          description: "API funcionando"
+          schema:
+            properties:
+              version:
+                type: string
+              environment:
+                type: string
+
+definitions:
+  ResponseError:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      type:
+        type: string
+      messages:
+        type: array
+        items:
+          type: string
+      cause:
+        type: object
+        properties:
+          name:
+            type: string
+          code:
+            type: number
+          message:
+            type: string
+
+
+  ResponseMeta:
+    type: object
+    properties:
+      version:
+        type: string
+      timestamp:
+        type: string
+        format: date-time
+      hostname:
+        type: string
+      numberOfRecords:
+        type: integer
+        format: int32
+      page:
+        type: integer
+        format: int32
+      size:
+        type: integer
+        format: int32
+  
+  Filmes:
+    type: object
+    properties:
+      id_filme:
+        type: integer
+        format: int32
+      nome_filme:
+        type: string
+      genero:
+        $ref: "#/definitions/Genero"
+      artista:
+        $ref: "#/definitions/Artista"
+      descricao:
+        type: string
+      data:
+        type: string
+        format: date-time
+
+
+  Artista:
+    type: object
+    properties:
+      id_artista:
+        type: integer
+        format: int32
+      nome_artista:
+        type: string
+    
+  Genero:
+    type: object
+    properties:
+      id_genero:
+        type: integer
+        format: int32
+      nome_genero:
+        type: string
+        
+  Filmografia:
+    type: array
+    items:
+      type: object
+      properties:
+        filme:
+          $ref: "#/definitions/Filmes"
+    
+  
+parameters:
+
+  Page:
+    in: query
+    name: page
+    type: number
+    format: int32
+    default: 1
+  
+  Size:
+    in: query
+    name: size
+    type: number
+    format: int32
+    default: 10
+
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
